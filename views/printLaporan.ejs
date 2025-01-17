@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1><%= title %></h1>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Nama Mahasiswa</th>
+        <th>Nilai</th>
+        <th>Predikat</th>
+        <th>Keterangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% laporanList.forEach(laporan => { %>
+        <tr>
+          <td><%= laporan.namaMahasiswa %></td>
+          <td><%= laporan.nilai %></td>
+          <td><%= laporan.predikat %></td>
+          <td><%= laporan.keterangan %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <p>Dicetak pada: <%= new Date().toLocaleString() %></p>
+  </div>
+</body>
+</html>

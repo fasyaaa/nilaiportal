@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Nilai Mahasiswa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+
+.sidebar {
+            background-image: url("/assets/sidebar.jpg") ;
+            background-size: cover; /* Cover the entire sidebar */  
+            background-position: center; /* Center the image */  
+            background-repeat: no-repeat; /* Prevent the image from repeating */  
+            min-height: 100vh;
+            color: white;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #343a40;
+            border-radius: 5px;
+        }
+
+        .sidebar h5 {
+            font-weight: bold;
+        }
+
+        /* Main content */
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        /* Kustomisasi tema */
+        body {
+            background-color: #f8f9fa; /* Warna latar belakang abu-abu terang */
+            color: #343a40; /* Warna teks */
+        }
+
+        header {
+            background-color: #343a40; /* Warna gelap untuk header */
+            color: #ffffff; /* Warna teks putih */
+            padding: 1rem;
+        }
+
+        header nav a {
+            color: #ffffff; /* Warna link di header */
+            margin-right: 1rem;
+            text-decoration: none;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Tabel */
+        table {
+            background-color: #ffffff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table th {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 1rem;
+        }
+
+        table td {
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        /* Formulir */
+        form label {
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        form input,
+        form select {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar p-3">
+            <h5 class="text-center py-3">PORTAL AKADEMIK</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="/portalnilai/dosen">Dashboard</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="/portalnilai/dosen/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+
+    <main class="container mt-4">
+        <% if (nilaiList && nilaiList.length > 0) { %>
+            <section>
+                <h2 class="mb-4">Daftar Nilai Mahasiswa</h2>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>NIM</th>
+                            <th>Nama Mata Kuliah</th>
+                            <th>Nilai</th>
+                            <th>Predikat</th>
+                            <th>Keterangan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% nilaiList.forEach(nilai => { %>
+                            <tr>
+                                <td><%= nilai.idMahasiswa %></td>
+                                <td><%= nilai.namaMk %></td>
+                                <td><%= nilai.nilai %></td>
+                                <td><%= nilai.predikat %></td>
+                                <td><%= nilai.keterangan %></td>
+                                <td>
+                                    <form action="/portalnilai/dosen/nilai/hapus" method="POST" class="d-inline">
+                                        <input type="hidden" name="idMk" value="<%= nilai.idMk %>">
+                                        <input type="hidden" name="idMahasiswa" value="<%= nilai.idMahasiswa %>">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus nilai ini?');">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </section>
+        <% } else { %>
+            <section>
+                <p class="alert alert-warning">Tidak ada nilai untuk mata kuliah ini.</p>
+            </section>
+        <% } %>
+
+        <section class="mt-5">
+            <h2 class="mb-4">Tambah Nilai Mahasiswa</h2>
+            <form action="/portalnilai/dosen/nilai/tambah" method="POST">
+                <div class="mb-3">
+                    <label for="idMk" class="form-label">Mata Kuliah:</label>
+                    <select name="idMk" id="idMk" class="form-select" required>
+                        <% matkulList.forEach(matkul => { %>
+                            <option value="<%= matkul.idMk %>"><%= matkul.namaMk %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="idMahasiswa" class="form-label">Mahasiswa:</label>
+                    <select name="idMahasiswa" id="idMahasiswa" class="form-select" required>
+                        <% mahasiswaList.forEach(mhs => { %>
+                            <option value="<%= mhs.idMahasiswa %>"><%= mhs.nama %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nilai" class="form-label">Nilai:</label>
+                    <input type="number" name="nilai" id="nilai" class="form-control" min="0" max="100" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="predikat" class="form-label">Predikat:</label>
+                    <input type="text" name="predikat" id="predikat" class="form-control" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="keterangan" class="form-label">Keterangan:</label>
+                    <input type="text" name="keterangan" id="keterangan" class="form-control" readonly>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('nilai').addEventListener('input', function() {
+            const nilai = parseInt(this.value);
+            let predikat = '';
+            let keterangan = '';
+
+            if (nilai >= 80) {
+                predikat = 'A';
+                keterangan = 'Lulus';
+            } else if (nilai >= 70) {
+                predikat = 'B';
+                keterangan = 'Lulus';
+            } else if (nilai >= 60) {
+                predikat = 'C';
+                keterangan = 'Lulus';
+            } else {
+                predikat = 'D';
+                keterangan = 'Tidak Lulus';
+            }
+
+            document.getElementById('predikat').value = predikat;
+            document.getElementById('keterangan').value = keterangan;
+        });
+    </script>
+</body>
+</html>
