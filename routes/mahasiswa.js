@@ -45,7 +45,7 @@ router.get("/logout", (req, res) => {
       res.redirect("/portalnilai");
     }
   });
- 
+
 // Route untuk menampilkan laporan berdasarkan mata kuliah
 router.get("/laporan", (req, res) => {
     const { idMk } = req.query;

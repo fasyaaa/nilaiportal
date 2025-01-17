@@ -58,7 +58,10 @@
       <h5 class="text-center py-3">PORTAL AKADEMIK</h5>
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
-          <a class="nav-link" href="#">Dashboard</a>
+          <a class="nav-link" href="/portalnilai/mahasiswa/">Dashboard</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link2" href="#"></a>
         </li>
         <li class="nav-item mb-2">
           <a class="nav-link" href="/portalnilai/mahasiswa/laporan/">Laporan</a>
@@ -91,7 +94,7 @@
           <div class="button-group">
             <button type="submit" class="btn btn-primary">Tampilkan Laporan</button>
             <% if (laporanList && laporanList.length > 0) { %>
-              <a class="btn btn-success" href="/portalnilai/dosen/laporan/unduh?idMk=<%= laporanList[0].idMk %>">Cetak Laporan</a>
+              <a class="btn btn-success" href="/portalnilai/mahasiswa/laporan/unduh?idMk=<%= laporanList[0].idMk %>">Cetak Laporan</a>
             <% } %>
           </div>
         </div>
