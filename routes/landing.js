@@ -5,7 +5,7 @@ const connection = require("../config/database");
 
 router.get("/", (req, res) => {
     console.log("Akses landing");
-    res.render("landing", {title: "Landing", error: null});
+    res.render("landing", {title: "Homepage", error: null});
   });
 
 router.post("/", async (req, res) => {
