@@ -9,3 +9,5 @@ ERD
 
 Database
 <img width="750" alt="database" src="https://github.com/user-attachments/assets/b98e27b6-33ec-4484-9b80-1b7a3aafbff9" />
+
+Laporan
